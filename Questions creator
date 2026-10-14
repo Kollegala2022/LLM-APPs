@@ -1,0 +1,23 @@
+import os
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key = gemini_api_key)
+
+def question_generator(user_prompt):
+    response = client.models.generate_content(
+        model = "gemini-2.5-flash",
+        contents = user_prompt
+    )
+    return response
+
+text = """Large Language Models (LLMs) are AI systems trained on massive text data.
+They can understand, generate, and summarize human language.
+"""
+
+output = question_generator(f"Generate questions from the following content:\n{text}")
+print(output.text)
+    
